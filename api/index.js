@@ -21,13 +21,14 @@ app.post('/proxy/mangadex-cover', async (req, res) => {
     try {
       // Step 1: Get cover information
       const coverInfoResponse = await axios.get(
-        `https://api.mangadex.org/cover?limit=10&manga%5B%5D=${mangaId}&order%5BcreatedAt%5D=asc&order%5BupdatedAt%5D=asc&order%5Bvolume%5D=asc`,
+        `https://api.mangadex.org/manga/${mangaId}?includes%5B%5D=cover_art`,
         {
           headers: { 'accept': 'application/json' },
         }
       );
   
-      const coverData = coverInfoResponse.data.data[0]; // Assuming we take the first cover
+      const coverData = coverInfoResponse.data.data.relationships[2];
+      console.log(coverData) // Assuming we take the first cover
       const coverFilename = coverData.attributes.fileName;
   
       // Step 2: Fetch the actual cover image
@@ -47,6 +48,6 @@ app.post('/proxy/mangadex-cover', async (req, res) => {
   });
   
 
-app.listen(3000, () => console.log("Server ready on port 3000."));
+app.listen(3001, () => console.log("Server ready on port 3001."));
 
 export default app;
