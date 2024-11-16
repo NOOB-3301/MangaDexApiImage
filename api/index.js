@@ -27,7 +27,7 @@ app.post('/proxy/mangadex-cover', async (req, res) => {
         }
       );
   
-      const coverData = coverInfoResponse.data.data.relationships[2];
+      const coverData = coverInfoResponse.data.data.relationships.find((item)=> item.type === "cover_art");
       console.log(coverData) // Assuming we take the first cover
       const coverFilename = coverData.attributes.fileName;
   
