@@ -46,6 +46,20 @@ app.post('/proxy/mangadex-cover', async (req, res) => {
       res.status(500).send('Error fetching image');
     }
   });
+
+
+  app.post("/api/v1/chapter-read",async(req,res)=>{
+    try {
+      const {chapId} = req.body
+      const resp = await axios.get (
+        `https://api.mangadex.org/at-home/server/${chapId}`
+      )
+      console.log(resp.data)
+      return res.status(200).send({message: resp.data})    
+    } catch (error) {
+        return res.status(400).send({message:"error while fetching image", error})
+    }
+  })
   
 
 app.listen(3001, () => console.log("Server ready on port 3001."));
